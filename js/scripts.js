@@ -10,6 +10,7 @@ $(function () {
             reasonForVisit: ko.observable(""),
             vseeId: ko.observable(""),
         },
+        messageText: ko.observable("Your provider will be with you shortly"),
         showTalkToPanel: ko.observable(true),
         showConnectingPanel: ko.observable(false),
         enterWaitingRoomClick: function () {
@@ -72,10 +73,23 @@ $(function () {
             console.log(m);
             if(m.channel == 'patient-channel') {
                 var payload = m.message.payload;
-                if(viewModel.profile.vseeId() == payload.profile.vseeId) {
-                    viewModel.showTalkToPanel(true);
-                    viewModel.showConnectingPanel(false);
+                var action = payload.action;
+                switch(action) {
+                    case 'leaveRoom':
+                        if(viewModel.profile.vseeId() == payload.profile.vseeId) {
+                            viewModel.showTalkToPanel(true);
+                            viewModel.showConnectingPanel(false);
+                        }
+                        break;
+                    case 'inProgress':
+                        if(viewModel.profile.vseeId() == payload.profile.vseeId) {
+                            viewModel.messageText('The visit is in progress');
+                        } else {
+                            viewModel.messageText('Doctor is currently busy and will attend to you soon');
+                        }
+                        break;
                 }
+                
             }
         },
         presence: function(presenceEvent) {

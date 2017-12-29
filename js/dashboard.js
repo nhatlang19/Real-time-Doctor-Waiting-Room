@@ -22,6 +22,9 @@ $(function () {
             this.vseeIds.remove( function (item) { 
                 return item == payload.profile.vseeId; 
             } ) 
+        },
+        callPatient: function(patient) {
+            showInProgress(patient.profile);
         }
     };
 
@@ -52,11 +55,18 @@ $(function () {
         }
     })  
 
+    console.log("Subscribing..");
+    pubnub.subscribe({
+        channels: ['dashboard'],
+        withPresence: true
+    });
+
     function leaveRoom(profile) {
         var publishConfig = {
             channel : "patient-channel",
             message : {
                 payload: {
+                    action: 'leaveRoom',
                     profile: {
                         yourName: profile.yourName,
                         reasonForVisit: profile.reasonForVisit,
@@ -70,9 +80,22 @@ $(function () {
         })
     }
 
-    console.log("Subscribing..");
-    pubnub.subscribe({
-        channels: ['dashboard'],
-        withPresence: true
-    });
+    function showInProgress(profile) {
+        var publishConfig = {
+            channel : "patient-channel",
+            message : {
+                payload: {
+                    action: 'inProgress',
+                    profile: {
+                        yourName: profile.yourName,
+                        reasonForVisit: profile.reasonForVisit,
+                        vseeId: profile.vseeId,
+                    }
+                }
+            }
+        }
+        pubnub.publish(publishConfig, function(status, response) {
+            console.log(status, response);
+        })
+    }
 });
