@@ -25,6 +25,7 @@ $(function () {
         },
         callPatient: function(patient) {
             showInProgress(patient.profile);
+            return true;
         }
     };
 
@@ -39,11 +40,14 @@ $(function () {
             console.log(m);
             if(m.channel == 'dashboard') {
                 var payload = m.message.payload;
-                if(payload.action == 'join') {
-                    viewModel.addProfile(payload);
-                } else {
-                    viewModel.removeProfile(payload);
-                    leaveRoom(payload.profile);
+                switch(payload.action) {
+                    case 'join':
+                        viewModel.addProfile(payload);
+                        break;
+                    case 'leave':
+                        viewModel.removeProfile(payload);
+                        leaveRoom(payload.profile);
+                        break;
                 }
             }
         },
