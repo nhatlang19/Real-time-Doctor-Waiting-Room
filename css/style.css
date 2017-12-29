@@ -1,26 +1,35 @@
 .nav-vsee {
-	border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
-
+.top-right {
+    font-size: 12px;
+}
+.navbar-nav>li>a {
+    color: #000000 !important;
+}
 .navbar-brand img {
-	width: 80px;
+    width: 80px;
 }
-
 .connecting {
-	margin: 0px 10px;
-	border-bottom: 1px solid #ccc;
-	padding: 50px 0px;
+    margin: 0px 10px;
+    border-bottom: 1px solid #ccc;
+    padding: 50px 0px;
 }
-
 .close-text {
-	margin: 10px 0px;
+    margin: 10px 0px;
 }
-
 .profile-row {
-	margin: 20px 0px;
+    margin: 20px 0px;
 }
-
 img.profile {
-	width: 75px;
-	height: 75px;
+    width: 75px;
+    height: 75px;
+}
+.panel-success {
+    border-color: #68A65B !important;
+}
+.panel-success>.panel-heading {
+    background: #68A65B !important;
+    color: #fff !important;
+    font-weight: 'bold';
 }
